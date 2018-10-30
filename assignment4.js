@@ -28,7 +28,7 @@ function makeBars(data, year) {
     //TODO: Clean data so it works for this case
     var bar = svg.selectAll('.bar')
                .data(data);
-               
+
     bar.enter()
          .append('rect')
          .attr('class', 'bar')
@@ -44,7 +44,7 @@ function makeBars(data, year) {
               return yScale(d[year])
           });
 }
-    
+
 function makeAxis(data, barPosition, year) {
     yAxis = d3.svg.axis()
     			.scale(yScale)
@@ -62,6 +62,41 @@ function makeAxis(data, barPosition, year) {
     			.attr('x', barPosition)
     			.attr('y', h + 10)
     			.text(year);
+}
+
+function drawLegend() {
+    // TODO: this is not working.
+    var legendData = [{e: 'Some college', c: '#E56CE1', y: 40}, {e: 'High school', c: '#87C086', y: 20}, {e: 'Less than high school', c: '#FDCA65', y: 0}, {e: 'U.S. average', c: '#624ACF', y: 60}]
+    
+    var bar = svg.selectAll("g")
+                    .data(legendData)
+                    .enter().append('g');
+    
+    bar.append('rect')
+        .attr('class', 'legend')
+        .attr('x', 1050)
+        .attr('y', function(d) { return d.y + 300})
+        .attr('width', 15)
+        .attr('height', 15)
+        .attr('fill', function(d) { return d.c });
+
+    bar.append("text")
+        .attr("x", 1100)
+        .attr("y", function(d) {return d.y + 300})
+        .attr("dy", ".35em")
+        .text(function(d) { return d.e });
+    
+//    var legend = svg.selectAll('.legend')
+//                    .data(legendData);
+
+//    legend.enter().append('rect')
+//                    .attr('class', 'legend')
+//                    .attr('x', 1050)
+//                    .attr('y', function(d) { return d.y + 300})
+//                    .attr('width', 15)
+//                    .attr('height', 15)
+//                    .attr('id', function(d) { return d.e })
+//                    .attr('fill', function(d) { return d.c });
 }
 
 // creates lines in between vertical bars
@@ -118,13 +153,13 @@ function showTooltip(d) {
 
 function getStroke(d) {
     if (d['State'] == 'US') {
-        return 'SteelBlue';
+        return '#624ACF';
     } else if (d['Education level'] == 'Less than high school') {
-        return '#D1D1D1';
+        return '#FDCA65';
     } else if (d['Education level'] == 'High school') {
-        return '#AFACAC';
+        return '#87C086';
     } else if (d['Education level'] == 'College or more') {
-        return '#787878';
+        return '#E56CE1';
     }
 }
 
@@ -171,7 +206,7 @@ function toggleLine(selectedLineData, clickedOn, newThickness) {
         for (j = 0; j < lines[i].length; j++) {
             if (lines[i][j].__data__['State'] == selectedLineData['State']) {
                 if (clickedOn) {
-                    lines[i][j].style.stroke = 'Crimson'
+                    lines[i][j].style.stroke = '#8D1207' // Mouse over color
                 } else {
                     lines[i][j].style.stroke = getStroke(lines[i][j].__data__)
                 }
@@ -189,7 +224,7 @@ function highlightLine(selectedLineData, isMouseOver) {
 			if (lines[i][j].__data__['State'] == selectedLineData['State'] && lines[i][j].style.strokeWidth != '5px' && !isMouseOver) {
 				lines[i][j].style.stroke = getStroke(lines[i][j].__data__)
 			} else if (lines[i][j].__data__['State'] == selectedLineData['State'] && lines[i][j].style.strokeWidth != '5px' && isMouseOver) {
-				lines[i][j].style.stroke = 'Crimson'
+				lines[i][j].style.stroke = '#8D1207' // Mouse over color
 			}
 		}
 	}
@@ -199,17 +234,17 @@ function highlightLine(selectedLineData, isMouseOver) {
 d3.csv('EducationFinal.csv', function(csvData) {
     var data = csvData;
     drawLines(data);
-    
+
     var year = 1970
     for (var i = 0; i < 5; i++) {
         makeAxis(data, (i+1)*200, year);
         year += 10
     }
-    
+
     var usData = [];
     usData.push(data[200], data[201], data[202], data[203]);
     for (var i = 3; i < vals.length; i++) {
         makeBars(usData, vals[i])
     }
+    drawLegend();
 });
-
