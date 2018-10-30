@@ -64,41 +64,6 @@ function makeAxis(data, barPosition, year) {
     			.text(year);
 }
 
-function drawLegend() {
-    // TODO: this is not working.
-    var legendData = [{e: 'Some college', c: '#E56CE1', y: 40}, {e: 'High school', c: '#87C086', y: 20}, {e: 'Less than high school', c: '#FDCA65', y: 0}, {e: 'U.S. average', c: '#624ACF', y: 60}]
-    
-    var bar = svg.selectAll("g")
-                    .data(legendData)
-                    .enter().append('g');
-    
-    bar.append('rect')
-        .attr('class', 'legend')
-        .attr('x', 1050)
-        .attr('y', function(d) { return d.y + 300})
-        .attr('width', 15)
-        .attr('height', 15)
-        .attr('fill', function(d) { return d.c });
-
-    bar.append("text")
-        .attr("x", 1100)
-        .attr("y", function(d) {return d.y + 300})
-        .attr("dy", ".35em")
-        .text(function(d) { return d.e });
-    
-//    var legend = svg.selectAll('.legend')
-//                    .data(legendData);
-
-//    legend.enter().append('rect')
-//                    .attr('class', 'legend')
-//                    .attr('x', 1050)
-//                    .attr('y', function(d) { return d.y + 300})
-//                    .attr('width', 15)
-//                    .attr('height', 15)
-//                    .attr('id', function(d) { return d.e })
-//                    .attr('fill', function(d) { return d.c });
-}
-
 // creates lines in between vertical bars
 function drawLines(data) {
     tooltip = d3.select('body').append('div')
@@ -246,5 +211,4 @@ d3.csv('EducationFinal.csv', function(csvData) {
     for (var i = 3; i < vals.length; i++) {
         makeBars(usData, vals[i])
     }
-    drawLegend();
 });
