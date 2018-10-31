@@ -15,20 +15,8 @@
 		stroke: #000;
 		shape-rendering: crispEdges;
 	}
-
-	circle {
-		fill: #f00;
-		stroke: #000;
-	}
-
-	.label {
-		text-anchor: middle;
-		font-size: 12px;
-		font-weight: bold;
-		cursor: pointer;
-	}
-
-	.tooltip {
+    
+    .tooltip {
         position: absolute;
         text-align: center;
         width: 80px;
@@ -45,29 +33,37 @@
     }
     
     span {
-        border-width: 2px;
         height: 16px;
         width: 30px;
         float: left;
         margin-right: 4px;
+        border: 1px solid black;
     }
     
     div.legend {
         position: relative;
         bottom: 720;
-        left: 900;
+        left: 920;
+        font-size: 15px;
     }
     
     h1 {
         position: relative;
-        bottom: 720;
-        left: 50;
+        bottom: 740;
+        left: 20;
     }
     
     .svg {
         position: relative;
-        top: 45;
-        right: 120;
+        top: 60;
+        right: 110;
+    }
+    
+    p.caption {
+        font-size: 15px;
+        position: relative;
+        bottom: 140;
+        left: 60;
     }
     
 </style>
@@ -77,15 +73,16 @@
   <h1>How the percentage of people in each state with different levels of education has changed from 1970 to 2016</h1>
   <script type="text/javascript" src="assignment4.js"></script>
   <div class = "legend">
-      <div class = "legend-title">Education Levels</div>
-      <div class = "keys">
-          <ul>
-              <li><span style="background:#E56CE1"></span>Some college</li>
-              <li><span style="background:#87C086"></span>High school</li>
-              <li><span style="background:#FDCA65"></span>Some high school</li>
-              <li><span style="background:#624ACF"></span>U.S. average</li>
-          </ul>
-      </div>
+    <div class = "legend-title">Education Levels</div>
+      <ul class = "bars">
+          <li><span style="background:#b2746b"></span>College or more</li>
+          <li><span style="background:#7a91c1"></span>Some college</li>
+          <li><span style="background:#86b265"></span>High school</li>
+          <li><span style="background:#ccaa45"></span>Some high school</li>
+      </ul>
   </div>
+  <p class = "caption">
+      This visualization brings together a stacked bar chart and a line graph to make a variation on a parallel coordinates visualization.<br>The main bars show the proportion of people with each level of education in the United States as notes in the legend. Each of the<br>lines represents where those divisions between education levels would be for each state. In this way, each state gets three lines to<br>show how these proportions have changed for them over time. When one line is selected, all the corresponding lines for that state<br>are highlighted and a label is shown.
+  </p>
 </body>
 </html>
