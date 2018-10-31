@@ -39,7 +39,7 @@ function addAxisLabels() {
         .attr("transform", "translate(" + 165 + " ," + (h/2) + ") rotate(-90)")
         .style("text-anchor", "middle")
         .style("font-size", "18px")
-        .text("Percent of population");
+        .text("Percent of the population");
 }
 
 // draws the bars for the US average
