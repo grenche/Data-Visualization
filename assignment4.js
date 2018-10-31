@@ -9,7 +9,7 @@ margin = 10;        // Margin around visualization
 xOffset = 40;       // Space for x-axis labels
 transDur = 1500;	// Duration of transitions (in milliseconds)
 vals = ['State','Area name','Education level','1970','1980','1990','2000','2016'] // data columns
-yearToX = {1970: 200, 1980: 400, 1990: 600, 2000: 800, 2016: 900}
+yearToX = {1970: 200, 1980: 400, 1990: 600, 2000: 800, 2016: 1000}
 colors = ['Red','Blue','Yellow']
 
 // create svg element at assignment4 id
@@ -22,14 +22,13 @@ yScale = d3.scale.linear()
             .domain([0,100])
             .range([h - margin, margin]);
 
-// create vertical bars along x-axis at barPosition
-function makeBars(data, year) {
-
-    //TODO: Clean data so it works for this case
+function drawBars(data, year) {
     var bar = svg.selectAll('.bar')
                .data(data);
 
-    bar.enter()
+    for (var i = 3; i < vals.length; i++) {
+        year = d[vals[i]];
+        bar.enter()
          .append('rect')
          .attr('class', 'bar')
          .attr('x', function(d) {
@@ -43,9 +42,11 @@ function makeBars(data, year) {
          .attr('height', function(d) {
               return yScale(d[year])
           });
+    }
+    
 }
 
-function makeAxis(data, barPosition, year) {
+function drawAxis(data, barPosition, year) {
     yAxis = d3.svg.axis()
     			.scale(yScale)
     			.orient('left')
@@ -64,7 +65,6 @@ function makeAxis(data, barPosition, year) {
     			.text(year);
 }
 
-// creates lines in between vertical bars
 function drawLines(data) {
     tooltip = d3.select('body').append('div')
                 .attr('class', 'tooltip')
@@ -202,13 +202,18 @@ d3.csv('EducationFinal.csv', function(csvData) {
 
     var year = 1970
     for (var i = 0; i < 5; i++) {
-        makeAxis(data, (i+1)*200, year);
+        drawAxis(data, (i+1)*200, year);
         year += 10
     }
 
     var usData = [];
-    usData.push(data[200], data[201], data[202], data[203]);
+    for (var i = 200; i < 204; i++) {
+        for (var j = 0; j < 5; j++) {
+            usData.push(data[i]);
+        }
+    }
+    
     for (var i = 3; i < vals.length; i++) {
-        makeBars(usData, vals[i])
+        drawBars(usData)
     }
 });
